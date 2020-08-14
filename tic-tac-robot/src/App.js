@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import styled from 'styled-components'
+import Board from './components/GameBoard'
 import './App.css';
 
 class App extends React.Component {
@@ -10,12 +11,17 @@ class App extends React.Component {
         super()
         this.state = {
             board: [
-                [1, 0, 2],
-                [2, 0, 2],
-                [0, 0, 1]
+                [0, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
             ],
             turn: true,
-            plays: 0
+            plays: 0,
+            hovered: [
+              [false, false, false],
+              [false, false, false],
+              [false, false, false],
+            ]
         }
         this.select = this.select.bind(this)
         this.reset = this.reset.bind(this)
@@ -23,6 +29,28 @@ class App extends React.Component {
         this.randomAiMove = this.randomAiMove.bind(this)
         this.getAvailableMoves = this.getAvailableMoves.bind(this)
         this.miniMaxMove = this.miniMaxMove.bind(this)
+        this.handleHover = this.handleHover.bind(this)
+    }
+
+    handleHover(row, col) {
+      console.log(row)
+      console.log(col)
+      console.log(this.state.hovered)
+      let newHovered = this.state.hovered
+      if (newHovered[row][col]) {
+        newHovered[row][col] = false
+      }
+      else {
+        newHovered[row][col] = true
+      }
+      this.setState(prevState => {
+        return {
+          board: prevState.board,
+          turn: prevState.turn,
+          plays: prevState.plays,
+          hovered: newHovered
+        }
+      })
     }
 
     reset() {
@@ -34,9 +62,14 @@ class App extends React.Component {
                 [0, 0, 0]
             ],
             turn: true,
-            plays: 0
+            plays: 0,
+            hovered: prevState.hovered
         }
       })
+    }
+
+    howManyGames(plays) {
+
     }
 
     getAvailableMoves(array) {
@@ -223,7 +256,8 @@ class App extends React.Component {
         return {
           board: newBoard,
           turn: newHumanTurn,
-          plays: newPlays
+          plays: newPlays,
+          hovered: prevState.hovered
         }
       })
       
@@ -237,51 +271,30 @@ class App extends React.Component {
           place-items: center;
         }
 
-        col-center {
+        .col-center {
           place-items: center;
+        }
+        .reset {
+          
+          background: #fff;
+          border: 6px solid #f6f4d2;
+          color: #9999ff;
+          float: left;
+          line-height: 34px;
+          height: 34px;
+          margin-right: -1px;
+          margin-top: -1px;
+          padding: 0;
+          width: 50px;
         }
       `
         return (
             <Styles>
-              <Container>
-                <Row className='row-center'>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(0, 0) }>{ this.state.board[0][0] }</button>
-                    </Col>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(0, 1) }>{ this.state.board[0][1] }</button>
-                    </Col>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(0, 2) }>{ this.state.board[0][2] }</button>
-                    </Col>
-                </Row>
-                <br/>
-                <Row className='row-center'>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(1, 0) }>{ this.state.board[1][0] }</button>
-                    </Col>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(1, 1) }>{ this.state.board[1][1] }</button>
-                    </Col>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(1, 2) }>{ this.state.board[1][2] }</button>
-                    </Col>
-                </Row>
-                <br/>
-                <Row className='row-center'>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(2, 0) }>{ this.state.board[2][0] }</button>
-                    </Col>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(2, 1) }>{ this.state.board[2][1] }</button>
-                    </Col>
-                    <Col className='col-center'>
-                        <button onClick={ () => this.select(2, 2) }>{ this.state.board[2][2] }</button>
-                    </Col>
-                </Row>
-                <button onClick={this.reset}>reset</button>
 
-              </Container>
+              <Board board={ this.state.board } selectFunc={ this.select } hovered={ this.state.hovered } hoverFunc={ this.handleHover }/>
+              <br/>
+              <br/>
+              <button className='reset' onClick={this.reset}>reset</button>
             </Styles>
             
         )
