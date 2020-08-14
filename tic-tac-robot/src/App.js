@@ -10,9 +10,9 @@ class App extends React.Component {
         super()
         this.state = {
             board: [
-                [0, 0, 0],
-                [0, 1, 0],
-                [2, 0, 0]
+                [1, 0, 2],
+                [2, 0, 2],
+                [0, 0, 1]
             ],
             turn: true,
             plays: 0
@@ -91,7 +91,9 @@ class App extends React.Component {
 
 
         moves.push(move)
-        
+        if ((humanTurn && (move.score === -10)) || (!humanTurn && (move.score === 10))) {
+          break
+        }
       }
       console.log('done with loop')
       console.log('')
@@ -105,6 +107,12 @@ class App extends React.Component {
             bestPosition = moves[i]
             bestScore = moves[i].score
           }
+          // if (beta < bestScore) {
+          //   alpha = Math.max(alpha, bestScore)
+          // }
+          // if (beta <= alpha) {
+          //   break
+          // }
         }
       }
       else {
@@ -115,6 +123,12 @@ class App extends React.Component {
             bestPosition = moves[i]
             bestScore = moves[i].score
           }
+          // if (alpha > bestScore) {
+          //   alpha = Math.max(alpha, bestScore)
+          // }
+          // if (beta <= alpha) {
+          //   break
+          // }
         }
       }
       if (bestPosition === -1) {
