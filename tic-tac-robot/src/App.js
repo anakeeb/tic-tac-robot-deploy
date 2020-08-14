@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import styled from 'styled-components'
 import Board from './components/GameBoard'
+import Background from './img/ticTacRobotBackground.png'
 import './App.css';
 
 class App extends React.Component {
@@ -21,7 +22,8 @@ class App extends React.Component {
               [false, false, false],
               [false, false, false],
               [false, false, false],
-            ]
+            ],
+            winner: 0
         }
         this.select = this.select.bind(this)
         this.reset = this.reset.bind(this)
@@ -48,7 +50,8 @@ class App extends React.Component {
           board: prevState.board,
           turn: prevState.turn,
           plays: prevState.plays,
-          hovered: newHovered
+          hovered: newHovered,
+          winner: prevState.winner
         }
       })
     }
@@ -63,7 +66,8 @@ class App extends React.Component {
             ],
             turn: true,
             plays: 0,
-            hovered: prevState.hovered
+            hovered: prevState.hovered,
+            winner: prevState.winner
         }
       })
     }
@@ -257,7 +261,8 @@ class App extends React.Component {
           board: newBoard,
           turn: newHumanTurn,
           plays: newPlays,
-          hovered: prevState.hovered
+          hovered: prevState.hovered,
+          winner: prevState.winner
         }
       })
       
@@ -287,14 +292,25 @@ class App extends React.Component {
           padding: 0;
           width: 50px;
         }
+
+        .background {
+          background: url(${ Background }) no-repeat center fixed;
+          background-position: center;
+          background-size: cover;
+          background-attachment: scroll;
+          height: 1000px;
+          padding: 140px 100px;
+          color: #000
+        }
       `
         return (
             <Styles>
-
-              <Board board={ this.state.board } selectFunc={ this.select } hovered={ this.state.hovered } hoverFunc={ this.handleHover }/>
-              <br/>
-              <br/>
-              <button className='reset' onClick={this.reset}>reset</button>
+              <div className='background'>
+                <Board board={ this.state.board } selectFunc={ this.select } hovered={ this.state.hovered } hoverFunc={ this.handleHover }/>
+                <br/>
+                <br/>
+                <button className='reset' onClick={this.reset}>reset</button>
+              </div>  
             </Styles>
             
         )
