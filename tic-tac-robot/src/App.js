@@ -356,7 +356,7 @@ class App extends React.Component {
         winner = 'Will you be able to beat the AI?'
       }
       else if (this.state.winner === 1) {
-        winner = 'Congradulations!  Beating this should have been mathematically impossible, so the creator of this website must have messed up bad.'
+        winner = 'Congradulations!  Beating this should have been mathematically impossible, so the creator of this website must have messed up real bad.'
       }
       else if (this.state.winner === 2) {
         winner = 'Oh well, Better luck next time!'

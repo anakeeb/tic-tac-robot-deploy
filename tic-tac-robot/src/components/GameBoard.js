@@ -34,6 +34,11 @@ class Board extends React.Component {
 			    margin-top: -1px;
 			    padding: 0;
 			    width: 80px;
+			    justifyContent:'center';
+
+			    &:hover {
+			    	border: 15px solid #ccccff;
+			    }
 			}
         `
 
@@ -50,11 +55,11 @@ class Board extends React.Component {
         		<img className='piece' src={ O }/>
         	)
         }
-        else if (this.props.hovered[row][col]) {
-        	img = (
-        		<img className='piece' src={ XOpaque }/>
-        	)
-        }
+        // else if (this.props.hovered[row][col]) {
+        // 	img = (
+        // 		<img className='piece' src={ XOpaque }/>
+        // 	)
+        // }
 
 
         return(
