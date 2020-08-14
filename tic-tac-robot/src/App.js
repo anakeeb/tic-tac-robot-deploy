@@ -31,20 +31,34 @@ class App extends React.Component {
         this.randomAiMove = this.randomAiMove.bind(this)
         this.getAvailableMoves = this.getAvailableMoves.bind(this)
         this.miniMaxMove = this.miniMaxMove.bind(this)
-        this.handleHover = this.handleHover.bind(this)
+        this.handleHoverIn = this.handleHoverIn.bind(this)
+        this.handleHoverOut = this.handleHoverOut.bind(this)
+        this.howManyGames = this.howManyGames.bind(this)
     }
 
-    handleHover(row, col) {
+    handleHoverIn(row, col) {
       console.log(row)
       console.log(col)
       console.log(this.state.hovered)
       let newHovered = this.state.hovered
-      if (newHovered[row][col]) {
-        newHovered[row][col] = false
-      }
-      else {
-        newHovered[row][col] = true
-      }
+      newHovered[row][col] = true
+      this.setState(prevState => {
+        return {
+          board: prevState.board,
+          turn: prevState.turn,
+          plays: prevState.plays,
+          hovered: newHovered,
+          winner: prevState.winner
+        }
+      })
+    }
+
+    handleHoverOut(row, col) {
+      console.log(row)
+      console.log(col)
+      console.log(this.state.hovered)
+      let newHovered = this.state.hovered
+      newHovered[row][col] = false
       this.setState(prevState => {
         return {
           board: prevState.board,
@@ -64,16 +78,20 @@ class App extends React.Component {
                 [0, 0, 0],
                 [0, 0, 0]
             ],
-            turn: true,
-            plays: 0,
-            hovered: prevState.hovered,
-            winner: prevState.winner
+          turn: true,
+          plays: 0,
+          hovered: [
+              [0, 0, 0],
+              [0, 0, 0],
+              [0, 0, 0]
+          ],
+          winner: 0
         }
       })
     }
 
     howManyGames(plays) {
-
+      return 255168
     }
 
     getAvailableMoves(array) {
@@ -87,22 +105,22 @@ class App extends React.Component {
     }
 
     miniMaxMove(newBoard, humanTurn) {
-      console.log('iteration')
-      console.log(humanTurn)
-      console.log(newBoard)
+      // console.log('iteration')
+      // console.log(humanTurn)
+      // console.log(newBoard)
       let availableMoves = this.getAvailableMoves(newBoard)
       if (this.checker(newBoard)) {
         if (humanTurn) {
-          console.log('ai wins')
+          //console.log('ai wins')
           return {score: 10}
         }
         else {
-          console.log('human wins')
+          //console.log('human wins')
           return {score: -10}
         }
       }
       else if (availableMoves.length === 0) {
-        console.log('tie')
+        //console.log('tie')
         return {score: 0}
       }
 
@@ -113,16 +131,16 @@ class App extends React.Component {
         move.index = availableMoves[i]
         if (humanTurn) {
           newBoard[Math.floor(availableMoves[i] / 3)][availableMoves[i] % 3] = 1
-          console.log('placing 1 in row', Math.floor(availableMoves[i] / 3), 'col', availableMoves[i] % 3)
+          //console.log('placing 1 in row', Math.floor(availableMoves[i] / 3), 'col', availableMoves[i] % 3)
         }
         else {
           newBoard[Math.floor(availableMoves[i] / 3)][availableMoves[i] % 3] = 2
-          console.log('placing 2 in row', Math.floor(availableMoves[i] / 3), 'col', availableMoves[i] % 3)
+          //console.log('placing 2 in row', Math.floor(availableMoves[i] / 3), 'col', availableMoves[i] % 3)
         }
         let result = this.miniMaxMove(newBoard, !humanTurn)
         move.score = result.score
-        console.log('done')
-        console.log('')
+        // console.log('done')
+        // console.log('')
 
         newBoard[Math.floor(availableMoves[i] / 3)][availableMoves[i] % 3] = 0
 
@@ -132,14 +150,14 @@ class App extends React.Component {
           break
         }
       }
-      console.log('done with loop')
-      console.log('')
-      console.log('')
+      // console.log('done with loop')
+      // console.log('')
+      // console.log('')
       let bestPosition = -1
       if (humanTurn) {
         let bestScore = 10000
         for (let i = 0; i < moves.length; i++) {
-          console.log('moves[', i, '] is position', moves[i].index, 'and has score', moves[i].score)
+          //console.log('moves[', i, '] is position', moves[i].index, 'and has score', moves[i].score)
           if (moves[i].score < bestScore) {
             bestPosition = moves[i]
             bestScore = moves[i].score
@@ -155,7 +173,7 @@ class App extends React.Component {
       else {
         let bestScore = -10000
         for (let i = 0; i < moves.length; i++) {
-          console.log('moves[', i, '] is position', moves[i].index, 'and has score', moves[i].score)
+          // console.log('moves[', i, '] is position', moves[i].index, 'and has score', moves[i].score)
           if (moves[i].score > bestScore) {
             bestPosition = moves[i]
             bestScore = moves[i].score
@@ -183,6 +201,7 @@ class App extends React.Component {
     }
 
     checker(array) {
+      let win = 0
       if (((array[0][0] === array[0][1]) && (array[0][1] === array[0][2]) && (array[0][1] !== 0)) ||
             ((array[1][0] === array[1][1]) && (array[1][1] === array[1][2]) && (array[1][1] !== 0)) ||
               ((array[2][0] === array[2][1]) && (array[2][1] === array[2][2]) && (array[2][1] !== 0)) ||
@@ -197,7 +216,7 @@ class App extends React.Component {
     }
 
     select(row, col) {
-      if(this.state.board[row][col] !== 0) {
+      if((this.state.board[row][col] !== 0) || (this.state.winner !== 0)) {
         console.log('already taken')
         return
       }
@@ -207,10 +226,10 @@ class App extends React.Component {
       newBoard[row][col] = 1
       newPlays++
       newHumanTurn = !newHumanTurn
+      let win = 0
       if(this.checker(newBoard)) {
         console.log('player 1 wins')
-        this.reset()
-        return
+        win = 1
       }
       
       
@@ -240,21 +259,23 @@ class App extends React.Component {
       //     gate = false
       //   }
       // }
-      let aiChoice = this.miniMaxMove(newBoard, false)
-      console.log(aiChoice)
-      newBoard[Math.floor(aiChoice.index / 3)][aiChoice.index % 3] = 2
-      newPlays++
-      newHumanTurn = !newHumanTurn
-      if(this.checker(newBoard)) {
-        console.log('ai wins')
-        this.reset()
-        return
+
+      if (win !== 1) {
+        let aiChoice = this.miniMaxMove(newBoard, false)
+        console.log(aiChoice)
+        newBoard[Math.floor(aiChoice.index / 3)][aiChoice.index % 3] = 2
+        newPlays++
+        newHumanTurn = !newHumanTurn
+        if(this.checker(newBoard)) {
+          console.log('ai wins')
+          win = 2
+        }
+        if ((newPlays > 7) && (win !== 1) && (win !== 2)) {
+          console.log('stalemate')
+          win = 3
+        }
       }
-      if (newPlays > 7) {
-        console.log('stalemate')
-        this.reset()
-        return
-      }
+      
 
       this.setState(prevState => {
         return {
@@ -262,7 +283,7 @@ class App extends React.Component {
           turn: newHumanTurn,
           plays: newPlays,
           hovered: prevState.hovered,
-          winner: prevState.winner
+          winner: win
         }
       })
       
@@ -271,6 +292,7 @@ class App extends React.Component {
 
 
     render() {
+      console.log(this.state.winner)
       const Styles = styled.div`
         .row-center {
           place-items: center;
@@ -280,17 +302,41 @@ class App extends React.Component {
           place-items: center;
         }
         .reset {
-          
-          background: #fff;
-          border: 6px solid #f6f4d2;
-          color: #9999ff;
+          background: #f6f4d2;
+          border: 15px solid #f6f4d2;
           float: left;
-          line-height: 34px;
-          height: 34px;
+          font-size: 50px;
+          line-height: 80px;
+          height: 80px;
           margin-right: -1px;
           margin-top: -1px;
           padding: 0;
-          width: 50px;
+          width: 150px;
+          
+          color: #9999ff;
+
+          &:hover {
+            background: #9999ff;
+            border: 15px solid #9999ff;
+            color: #f6f4d2;
+          }
+          
+        }
+
+        .board {
+          margin: auto;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .message {
+          float: right;
+          color: #000
+        }
+
+        .games-left {
+          text-align: center;
+          color: #fffffff
         }
 
         .background {
@@ -298,22 +344,57 @@ class App extends React.Component {
           background-position: center;
           background-size: cover;
           background-attachment: scroll;
-          height: 1000px;
+          height: 700px;
           padding: 140px 100px;
-          color: #000
+          color: #ffffff
         }
       `
-        return (
-            <Styles>
-              <div className='background'>
-                <Board board={ this.state.board } selectFunc={ this.select } hovered={ this.state.hovered } hoverFunc={ this.handleHover }/>
-                <br/>
-                <br/>
-                <button className='reset' onClick={this.reset}>reset</button>
-              </div>  
-            </Styles>
-            
-        )
+
+      let games = this.howManyGames(this.state.plays)
+      let winner
+      if (this.state.winner === 0) {
+        winner = 'Will you be able to beat the AI?'
+      }
+      else if (this.state.winner === 1) {
+        winner = 'Congradulations!  Beating this should have been mathematically impossible, so the creator of this website must have messed up bad.'
+      }
+      else if (this.state.winner === 2) {
+        winner = 'Oh well, Better luck next time!'
+      }
+      else {
+        winner = 'Looks like you tied, better luck next time!'
+      }
+      console.log(winner)
+      return (
+        <Styles>
+          <div className='background'> 
+            <br/>
+            <br/>
+            <br/>
+            <h1 className='message'>{ winner }</h1>
+            <Board className='board' board={ this.state.board } selectFunc={ this.select } hovered={ this.state.hovered } hoverInFunc={ this.handleHoverIn } hoverOutFunc={ this.handleHoverOut }/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <button className='reset' onClick={this.reset}>reset</button>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <h1 className='games-left'>{ games } possible games left!</h1>
+          </div>  
+        </Styles>
+          
+      )
     }
   
 }

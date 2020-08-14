@@ -19,21 +19,21 @@ class Board extends React.Component {
 			}
 
         	.piece {
-				height: 20px;
+				height: 60px;
 				margin: auto;
         	}
 
 
 			.square {
 			    background: #fff;
-			    border: 6px solid #f6f4d2;
+			    border: 15px solid #f6f4d2;
 			    float: left;
-			    line-height: 34px;
-			    height: 34px;
+			    line-height: 80px;
+			    height: 80px;
 			    margin-right: -1px;
 			    margin-top: -1px;
 			    padding: 0;
-			    width: 34px;
+			    width: 80px;
 			}
         `
 
@@ -60,7 +60,8 @@ class Board extends React.Component {
         return(
         	<Styles>
 	        	<button className='square' onClick={ () => this.props.selectFunc(row, col) } 
-	        			>
+	        		onMouseEnter={ () => this.props.hoverInFunc(row, col) }
+	        		onMouseLeave={ () => this.props.hoverOutFunc(row, col) }	>
 	        		{ img }
 	        	</button>
         	</Styles>
@@ -80,18 +81,6 @@ class Board extends React.Component {
 			    flex-direction: row;
 			}
 
-
-			.square {
-			    background: #fff;
-			    border: 1px solid #999;
-			    float: left;
-			    line-height: 34px;
-			    height: 34px;
-			    margin-right: -1px;
-			    margin-top: -1px;
-			    padding: 0;
-			    width: 34px;
-			}
         `
 
 		return (
@@ -103,11 +92,17 @@ class Board extends React.Component {
 				</div>
 				<br/>
 				<br/>
+				<br/>
+				<br/>
+				<br/>
 				<div className='row'>
 					{ this.renderSquare(1, 0) }
 					{ this.renderSquare(1, 1) }
 					{ this.renderSquare(1, 2) }
 				</div>
+				<br/>
+				<br/>
+				<br/>
 				<br/>
 				<br/>
 				<div className='row'>
