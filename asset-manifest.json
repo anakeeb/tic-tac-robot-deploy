@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/tic-tac-robot-deploy/static/css/main.5f361e03.chunk.css",
+    "main.js": "/tic-tac-robot-deploy/static/js/main.f52c2710.chunk.js",
+    "main.js.map": "/tic-tac-robot-deploy/static/js/main.f52c2710.chunk.js.map",
+    "runtime-main.js": "/tic-tac-robot-deploy/static/js/runtime-main.063da39a.js",
+    "runtime-main.js.map": "/tic-tac-robot-deploy/static/js/runtime-main.063da39a.js.map",
+    "static/js/2.74f9f34c.chunk.js": "/tic-tac-robot-deploy/static/js/2.74f9f34c.chunk.js",
+    "static/js/2.74f9f34c.chunk.js.map": "/tic-tac-robot-deploy/static/js/2.74f9f34c.chunk.js.map",
+    "index.html": "/tic-tac-robot-deploy/index.html",
+    "precache-manifest.bdb8719c6857dddbc2ea38f1076be9e3.js": "/tic-tac-robot-deploy/precache-manifest.bdb8719c6857dddbc2ea38f1076be9e3.js",
+    "service-worker.js": "/tic-tac-robot-deploy/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/tic-tac-robot-deploy/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.74f9f34c.chunk.js.LICENSE.txt": "/tic-tac-robot-deploy/static/js/2.74f9f34c.chunk.js.LICENSE.txt",
+    "static/media/o.png": "/tic-tac-robot-deploy/static/media/o.57ed58e1.png",
+    "static/media/ticTacRobotBackground.png": "/tic-tac-robot-deploy/static/media/ticTacRobotBackground.a0a8cdfa.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.063da39a.js",
+    "static/js/2.74f9f34c.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.f52c2710.chunk.js"
+  ]
+}
